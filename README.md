@@ -55,7 +55,4 @@ This project is open source and available under the [MIT License](LICENSE).
 [LinkedIn](https://www.linkedin.com/in/nooraldeen-tantawi-3bb899237/)  
 [GitHub](https://github.com/NoorTantawi)
 
----
-
-Feel free to fork, contribute, or submit issues!
 
