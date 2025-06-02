@@ -42,12 +42,12 @@ The solution follows the Onion Architecture pattern, consisting of multiple proj
     
 5. **Build and run the project.**
 
-**Contribution**
+## 🤝 Contribution
 
 Feel free to fork this project and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
 
-License
-This project is open source and available under the MIT License.
+## 📄 License
+This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙋‍♂️ Author
 
