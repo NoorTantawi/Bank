@@ -1,0 +1,40 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Hope.infrastructure.DTO.NationalityDTO;
+<style>
+    .row {
+        padding-top: 20px !important;
+    }
+</style>
+
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-action="AddNewNationality">
+                            <div class ="row">
+                                <div class="col-md-4">
+                                    Nationality Name
+                                    <input type ="text" asp-for="NationalityName" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="submit" class="btn btn-primary" value="Submit"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
