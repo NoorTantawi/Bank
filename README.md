@@ -11,21 +11,21 @@ The solution follows the Onion Architecture pattern, consisting of multiple proj
 - **Infrastructure**: Handles data access, repositories, and external services.
 - **WebUI**: The presentation layer, implemented as an ASP.NET Core MVC or Web API project.
 
-## Features
+## 🚀 Features
 
 - Manage bank accounts and customers.
 - Implement business rules via domain services.
 - Data persistence through repositories.
 - Separation of concerns ensures easier testing and maintenance.
 
-## Technologies Used
+## 🧠 Technologies Used
 
 - ASP.NET Core (version used in the project)
 - Entity Framework Core
 - C#
 - Onion Architecture design pattern
 
-## How to Run
+## ⚙️ How to Run
 
 1. **Clone the repository:**
 
