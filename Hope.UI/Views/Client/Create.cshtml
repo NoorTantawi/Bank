@@ -57,12 +57,12 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label">National ID</label>
-                                        <input type="text" class="form-control" asp-for="NationalId" maxlength="10"/>
+                                        <input type="text" class="form-control" asp-for="NationalId" maxlength="10"/> 
 
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label class="form-label">Qualification Name</label>
+                                            <label class="form-label">Nationality Name</label>
                                             <span class="text-danger">*</span>
                                             <select class="form-select" asp-for="NationalityId" asp-items="@(new SelectList(ViewBag.Nationality,"NationalityID","NationalityName"))">
                                                 <option value="">Please Select</option>
@@ -77,10 +77,10 @@
                                             <span asp-validation-for="PassportNumber" class="text-danger"></span>
                                         </div>
                                         <div class="col-md-4">
-                                            <label class="form-label">Mobile</label>
+                                            <label class="form-label">Email</label>
                                             <span class="text-danger">*</span>
-                                            <input type="text" class="form-control" asp-for="Mobile" />
-                                            <span asp-validation-for="Mobile" class="text-danger"></span>
+                                            <input type="text" class="form-control" asp-for="Email" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -110,12 +110,12 @@
             var currentDate = new Date();
             var selectedDate = new Date(dob);
 
-            var minAge = 18;
+            var minAge = 15;
 
             var ageDiff = currentDate.getFullYear() - selectedDate.getFullYear();
 
             if (ageDiff < minAge) {
-                alert('Error Date, min age is 18 years old');
+                alert('Error Date, min age is 15 years old');
                 return false;
             }
             return true;

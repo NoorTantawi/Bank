@@ -44,21 +44,21 @@ namespace Hope.API.Controllers.Client
 
         public IActionResult UpdateClient(ClientDTO clientDTO)
         {
-            DomainEntities.DBEntities.Client obj = new DomainEntities.DBEntities.Client();
+            DomainEntities.DBEntities.Client client = new DomainEntities.DBEntities.Client();
 
-            obj = _clientRepository.GetById(clientDTO.ClientId);
+            client = _clientRepository.GetById(clientDTO.ClientId);
 
-            obj.Address = clientDTO.Address;
-            obj.DateOfBirth = clientDTO.DateOfBirth;
-            obj.Email = clientDTO.Email;
-            obj.FullName = clientDTO.FullName;
-            obj.Mobile = clientDTO.Mobile;
-            obj.NationalId = clientDTO.NationalId;
-            obj.NationalityId = clientDTO.NationalityId;
-            obj.PassportNumber = clientDTO.PassportNumber;
-            obj.RegisterDate = clientDTO.RegisterDate;
+            client.Address = clientDTO.Address;
+            client.DateOfBirth = clientDTO.DateOfBirth;
+            client.Email = clientDTO.Email;
+            client.FullName = clientDTO.FullName;
+            client.Mobile = clientDTO.Mobile;
+            client.NationalId = clientDTO.NationalId;
+            client.NationalityId = clientDTO.NationalityId;
+            client.PassportNumber = clientDTO.PassportNumber;
+            client.RegisterDate = clientDTO.RegisterDate;
 
-            _clientRepository.Update(obj);
+            _clientRepository.Update(client);
 
             return Ok("Success");
         }
@@ -78,9 +78,10 @@ namespace Hope.API.Controllers.Client
         {
             List <ClientDTO> lstData = new List<ClientDTO>();
 
-            lstData = (from x in _clientRepository.GetAll()
+            lstData = (from x in _clientRepository.Find(obj => obj.ClientId != -1, obj => obj.Nationality)
                    select new ClientDTO 
                    {
+                       ClientId = x.ClientId,
                        Address = x.Address,
                        DateOfBirth = x.DateOfBirth,
                        Email = x.Email,
@@ -90,6 +91,7 @@ namespace Hope.API.Controllers.Client
                        NationalityId = x.NationalityId,
                        PassportNumber = x.PassportNumber,
                        RegisterDate = x.RegisterDate,
+                       NationalityName = x.Nationality.NationalityName,
                    }).ToList ();
 
             string jsonString = JsonConvert.SerializeObject(lstData, Formatting.None, new JsonSerializerSettings
@@ -107,6 +109,7 @@ namespace Hope.API.Controllers.Client
             clientDTO = (from x in _clientRepository.Find(x => x.ClientId == id)
                          select new ClientDTO
                          {
+                             ClientId = x.ClientId,
                              Address = x.Address,
                              DateOfBirth = x.DateOfBirth,
                              Email = x.Email,

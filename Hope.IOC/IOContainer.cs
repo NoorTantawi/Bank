@@ -22,7 +22,9 @@ namespace Hope.IOC
             services.AddScoped<INationalityRepository, NationalityRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IQualificationRepository, QualificationRepository>();
-            services.AddScoped<IClientRepository, ClientRepository>(); 
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IAccountTypeRepository,  AccountTypeRepository>();
+
         }
     }
 }

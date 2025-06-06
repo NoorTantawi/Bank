@@ -1,0 +1,120 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Hope.infrastructure.DTO.AccountOpeningDTO
+<style>
+    .row {
+        padding-top: 20px !important;
+    }
+</style>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-semibold mb-4">Add New Account Opening</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <form asp-action="AddNewAccountOpening">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Account Type</label>
+                                        <span class="text-danger">*</span>
+                                        <select class="form-select" asp-for="AccountTypeId" asp-items="@(new SelectList(ViewBag.AccountTypes,"AccountTypeId","AccountName"))">
+                                            <option value="">Please Select</option>
+
+                                        </select>
+                                        <span asp-validation-for="AccountTypeId" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Client Name</label>
+                                        <span class="text-danger">*</span>
+                                        <select class="form-select" asp-for="ClientId" asp-items="@(new SelectList(ViewBag.Clients,"ClientId","FullName"))">
+                                            <option value="">Please Select</option>
+
+                                        </select>
+                                        <span asp-validation-for="ClientId" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">IBAN</label>
+                                        <span class="text-danger">*</span>
+                                        <input type="text" class="form-control" asp-for="Iban" />
+                                        <span asp-validation-for="Iban" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Currency</label>
+                                        <span class="text-danger">*</span>
+                                        <input type="text" class="form-control" asp-for="Currency" />
+                                        <span asp-validation-for="Currency" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Balance</label>
+                                        <span class="text-danger">*</span>
+                                        <input type="text" class="form-control" asp-for="Balance" />
+                                        <span asp-validation-for="Balance" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+<script type="text/javascript">
+    function onlyText(evt) {
+        var e = event || evt;
+        var charCode = e.which || e.keyCode;
+        if ((charCode > 96 && charCode < 123) || (charCode > 64 && charCode < 91))
+            return true;
+        return false;
+    }
+
+    function ValidateAge() {
+        var dob = document.getElementById("DOB").value;
+        var currentDate = new Date();
+        var selectedDate = new Date(dob);
+
+        var minAge = 15;
+
+        var ageDiff = currentDate.getFullYear() - selectedDate.getFullYear();
+
+        if (ageDiff < minAge) {
+            alert('Error Date, min age is 15 years old');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+</html>

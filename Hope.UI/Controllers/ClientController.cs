@@ -33,7 +33,7 @@ namespace Hope.UI.Controllers
 
                 var ClientContextDTO = JsonConvert.SerializeObject(clientDTO);
 
-                var response = await client.PostAsync(url + "api/Employee/AddNewEmployee",
+                var response = await client.PostAsync(url + "api/Client/AddNewClient",
                     new StringContent(ClientContextDTO, Encoding.UTF8, "application/json"));
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)

@@ -34,5 +34,7 @@ namespace Hope.infrastructure.DTO
         [Required(AllowEmptyStrings = false, ErrorMessage = "This field is required")]
         [RegularExpression(@"^[\w-]+([\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$", ErrorMessage= "Please enter a correct email")]
         public string Email { get; set; }
+
+        public string NationalityName { get; set; }
     }
 }
