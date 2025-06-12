@@ -32,5 +32,11 @@ namespace Hope.UI.Controllers
 
             return View();
         }
+
+        public IActionResult CheckIfUserHasAccount(int AccountTypeId, int ClientId)
+        {
+
+            return Json("Success");
+        }
     }
 }

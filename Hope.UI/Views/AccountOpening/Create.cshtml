@@ -8,6 +8,10 @@
     .row {
         padding-top: 20px !important;
     }
+    .alert-danger {
+        --bs-alert-color: red !important;
+        font-size:15px;
+    }
 </style>
 <html>
     <head>
@@ -27,7 +31,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Account Type</label>
                                         <span class="text-danger">*</span>
-                                        <select class="form-select" asp-for="AccountTypeId" asp-items="@(new SelectList(ViewBag.AccountTypes,"AccountTypeId","AccountName"))">
+                                        <select id="AccountTypeList" class="form-select" asp-for="AccountTypeId" asp-items="@(new SelectList(ViewBag.AccountTypes,"AccountTypeId","AccountName"))">
                                             <option value="">Please Select</option>
 
                                         </select>
@@ -36,9 +40,8 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Client Name</label>
                                         <span class="text-danger">*</span>
-                                        <select class="form-select" asp-for="ClientId" asp-items="@(new SelectList(ViewBag.Clients,"ClientId","FullName"))">
+                                        <select id="ClientList" class="form-select" asp-for="ClientId" asp-items="@(new SelectList(ViewBag.Clients,"ClientId","FullName"))">
                                             <option value="">Please Select</option>
-
                                         </select>
                                         <span asp-validation-for="ClientId" class="text-danger"></span>
                                     </div>
@@ -69,13 +72,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button id="btnSubmit" type="submit" class="btn btn-primary">Submit</button>
                                     </div>
-                                    <div class="col-md-4">
-
-                                    </div>
-                                    <div class="col-md-4">
-
+                                </div>
+                                <div class="row" id="divError" style="display:none">
+                                    <div class="col-md-12 alert alert-danger" role="alert">
+                                        You can't add new account to this client, because this account is already created!
                                     </div>
                                 </div>
                             </form>
@@ -87,31 +89,54 @@
     </div>
     </body>
 
-<script type="text/javascript">
-    function onlyText(evt) {
-        var e = event || evt;
-        var charCode = e.which || e.keyCode;
-        if ((charCode > 96 && charCode < 123) || (charCode > 64 && charCode < 91))
-            return true;
-        return false;
-    }
+    <script type="text/javascript">
+        $('#AccountTypeList').change(function () {
 
-    function ValidateAge() {
-        var dob = document.getElementById("DOB").value;
-        var currentDate = new Date();
-        var selectedDate = new Date(dob);
+            if ($('AccountTypeList').val() != '' && $('#ClientList').val() != '') 
+            {
+                $.getJSON('CheckIfUserHasAccount', {
+                    AccountTypeId: $('AccountTypeList').val(),
+                    ClientId: $('#ClientList').val()
+                }, function (ResultValue) {
 
-        var minAge = 15;
+                    if (ResultValue = 'Success') {
+                        $('#btnSubmit').prop('disabled', true);
+                        document.getElementById('divError').style.display = 'block';
+                    }
+                    else {
+                        $('#btnSubmit').prop('disabled', false);
+                        document.getElementById('divError').style.display = 'none';
+                    }
 
-        var ageDiff = currentDate.getFullYear() - selectedDate.getFullYear();
+                });
+            }
 
-        if (ageDiff < minAge) {
-            alert('Error Date, min age is 15 years old');
-            return false;
+        });
+
+
+        $('#ClientList').change(function () {
+
+        if ($('AccountTypeList').val() != '' && $('#ClientList').val() != '') 
+        {
+            $.getJSON('CheckIfUserHasAccount', {
+                AccountTypeId: $('AccountTypeList').val(),
+                ClientId: $('#ClientList').val()
+            }, function (ResultValue) {
+
+                if (ResultValue = 'Success') {
+                    $('#btnSubmit').prop('disabled', true);
+                    document.getElementById('divError').style.display = 'block';
+                }
+                else {
+                    $('#btnSubmit').prop('disabled', false);
+                    document.getElementById('divError').style.display = 'none';
+                }
+
+            });
         }
-        return true;
-    }
-</script>
+        });
+
+    </script>
 
 @section Scripts {
     @{
