@@ -5,9 +5,11 @@ using Hope.Repositories.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
 
 namespace Hope.API.Controllers.AccountOpening
 {
@@ -18,11 +20,14 @@ namespace Hope.API.Controllers.AccountOpening
 
         private readonly IClientRepository _clientRepository;
         private readonly IAccountTypeRepository _accountTypeRepository;
+        private readonly IAccountOpeningRepository _accountOpeningRepository;
 
-        public AccountOpeningController(IClientRepository clientRepository, IAccountTypeRepository accountTypeRepository)
+        public AccountOpeningController(IClientRepository clientRepository, IAccountTypeRepository accountTypeRepository, IAccountOpeningRepository accountOpeningRepository)
         {
             _clientRepository = clientRepository;
             _accountTypeRepository = accountTypeRepository;
+            _accountOpeningRepository = accountOpeningRepository;
+
         }
 
         public IActionResult GetAllClient()
@@ -61,6 +66,39 @@ namespace Hope.API.Controllers.AccountOpening
             });
 
             return Ok(jsonString);
+        }
+
+        public IActionResult CheckIfUserHasAccount(int AccountTypeId, int ClientId)
+        {
+            int count = 0;
+            count = _accountOpeningRepository.Find(obj => obj.AccountTypeId == AccountTypeId && obj.ClientId == ClientId).Count();
+
+            if (count > 0)
+            {
+                return Ok("Success");// User already has an account of this type.
+            }
+            else
+            {
+                return Ok("Fail"); // Can open a new account
+            }
+
+        }
+
+        public IActionResult AddNewAccountOpening(AccountOpeningDTO accountOpeningDTO)
+        {
+            DomainEntities.DBEntities.AccountOpening accountOpening = new DomainEntities.DBEntities.AccountOpening();
+
+
+            accountOpening.AccountTypeId = accountOpeningDTO.AccountTypeId;
+            accountOpening.ClientId = accountOpeningDTO.ClientId;
+            accountOpening.Currency = accountOpeningDTO.Currency;
+            accountOpening.OpeningDate = DateTime.Now;
+            accountOpening.Balance = accountOpeningDTO.Balance;
+            accountOpening.Iban = accountOpeningDTO.Iban;
+            accountOpening.Status = true; // Assuming the account is active upon creation
+
+            _accountOpeningRepository.Add(accountOpening);
+            return Ok("Success");
         }
     }
 }

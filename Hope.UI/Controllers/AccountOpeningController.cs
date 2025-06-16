@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Hope.UI.Controllers
@@ -33,10 +34,46 @@ namespace Hope.UI.Controllers
             return View();
         }
 
-        public IActionResult CheckIfUserHasAccount(int AccountTypeId, int ClientId)
+        public async Task<IActionResult> CheckIfUserHasAccount(int AccountTypeId, int ClientId)
         {
+            string url = "http://localhost:37075/";
+            HttpClient client = new HttpClient();
 
-            return Json("Success");
+            var response = await client.GetAsync(url + "api/AccountOpening/CheckIfUserHasAccount?AccountTypeId="
+                + AccountTypeId + "&ClientId=" + ClientId);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var apiResponse = await response.Content.ReadAsStringAsync();
+                //string status = JsonConvert.DeserializeObject<string>(apiResponse);
+                return Json(apiResponse);
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+
+        public async Task<IActionResult> AddNewAccountOpening(Hope.infrastructure.DTO.AccountOpeningDTO accountOpeningDTO)
+        {
+            HttpClient client = new HttpClient();
+            string url = "http://localhost:37075/";
+
+            var AccountOpeningContextDTO = JsonConvert.SerializeObject(accountOpeningDTO);
+
+            var response = await client.PostAsync(url + "api/AccountOpening/AddNewAccountOpening",
+                new StringContent(AccountOpeningContextDTO, Encoding.UTF8, "application/json"));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return View();
+            }
+            else
+            {
+                return View("~/Views/Home/ErrorPage.cshtml");
+                //Error Page
+            }
         }
     }
 }

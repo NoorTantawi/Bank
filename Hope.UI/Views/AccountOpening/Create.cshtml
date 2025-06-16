@@ -57,7 +57,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Currency</label>
                                         <span class="text-danger">*</span>
-                                        <input type="text" class="form-control" asp-for="Currency" />
+                                        <input type="text" class="form-control" asp-for="Currency" maxlength="5" />
                                         <span asp-validation-for="Currency" class="text-danger"></span>
                                     </div>
                                     <div class="col-md-4">
@@ -87,56 +87,52 @@
             </div>
         </div>
     </div>
-    </body>
 
     <script type="text/javascript">
         $('#AccountTypeList').change(function () {
-
-            if ($('AccountTypeList').val() != '' && $('#ClientList').val() != '') 
-            {
+            if ($('#AccountTypeList').val() != '' && $('#ClientList').val() != '') {
                 $.getJSON('CheckIfUserHasAccount', {
-                    AccountTypeId: $('AccountTypeList').val(),
+                    AccountTypeId: $('#AccountTypeList').val(),
                     ClientId: $('#ClientList').val()
                 }, function (ResultValue) {
-
-                    if (ResultValue = 'Success') {
+                        if (ResultValue == 'Success') {
                         $('#btnSubmit').prop('disabled', true);
                         document.getElementById('divError').style.display = 'block';
                     }
-                    else {
+                        else {
                         $('#btnSubmit').prop('disabled', false);
                         document.getElementById('divError').style.display = 'none';
                     }
 
                 });
             }
-
         });
 
 
         $('#ClientList').change(function () {
-
-        if ($('AccountTypeList').val() != '' && $('#ClientList').val() != '') 
-        {
-            $.getJSON('CheckIfUserHasAccount', {
-                AccountTypeId: $('AccountTypeList').val(),
-                ClientId: $('#ClientList').val()
-            }, function (ResultValue) {
-
-                if (ResultValue = 'Success') {
-                    $('#btnSubmit').prop('disabled', true);
-                    document.getElementById('divError').style.display = 'block';
-                }
-                else {
-                    $('#btnSubmit').prop('disabled', false);
-                    document.getElementById('divError').style.display = 'none';
-                }
-
-            });
-        }
+            if ($('#AccountTypeList').val() != '' && $('#ClientList').val() != '')
+            {
+                $.getJSON('CheckIfUserHasAccount', {
+                    AccountTypeId: $('#AccountTypeList').val(),
+                    ClientId: $('#ClientList').val()
+                }, function (ResultValue) {
+                        if (ResultValue == 'Success') {
+                        $('#btnSubmit').prop('disabled', true);
+                        document.getElementById('divError').style.display = 'block';
+                    }
+                        else {
+                        $('#btnSubmit').prop('disabled', false);
+                        document.getElementById('divError').style.display = 'none';
+                    }
+                });
+            }
         });
-
     </script>
+
+</body>
+
+    
+    
 
 @section Scripts {
     @{
@@ -144,3 +140,5 @@
     }
 }
 </html>
+
+
