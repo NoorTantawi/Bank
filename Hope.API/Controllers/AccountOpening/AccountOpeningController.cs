@@ -21,13 +21,14 @@ namespace Hope.API.Controllers.AccountOpening
         private readonly IClientRepository _clientRepository;
         private readonly IAccountTypeRepository _accountTypeRepository;
         private readonly IAccountOpeningRepository _accountOpeningRepository;
+        private readonly IErrorLogRepository _errorLogRepository;
 
-        public AccountOpeningController(IClientRepository clientRepository, IAccountTypeRepository accountTypeRepository, IAccountOpeningRepository accountOpeningRepository)
+        public AccountOpeningController(IClientRepository clientRepository, IAccountTypeRepository accountTypeRepository, IAccountOpeningRepository accountOpeningRepository, IErrorLogRepository errorLogRepository)
         {
             _clientRepository = clientRepository;
             _accountTypeRepository = accountTypeRepository;
             _accountOpeningRepository = accountOpeningRepository;
-
+            _errorLogRepository = errorLogRepository;
         }
 
         public IActionResult GetAllClient()
@@ -86,19 +87,41 @@ namespace Hope.API.Controllers.AccountOpening
 
         public IActionResult AddNewAccountOpening(AccountOpeningDTO accountOpeningDTO)
         {
-            DomainEntities.DBEntities.AccountOpening accountOpening = new DomainEntities.DBEntities.AccountOpening();
+            try
+            {
+                DomainEntities.DBEntities.AccountOpening accountOpening = new DomainEntities.DBEntities.AccountOpening();
+
+                accountOpening.AccountTypeId = accountOpeningDTO.AccountTypeId;
+                accountOpening.ClientId = accountOpeningDTO.ClientId;
+                accountOpening.Currency = accountOpeningDTO.Currency;
+                accountOpening.OpeningDate = DateTime.Now;
+                accountOpening.Balance = accountOpeningDTO.Balance;
+                accountOpening.Iban = accountOpeningDTO.Iban;
+                accountOpening.Status = true; // Assuming the account is active upon creation
+
+                _accountOpeningRepository.Add(accountOpening);
+                return Ok("Success");
+            }
+            catch (Exception ex)
+            {
+                DomainEntities.DBEntities.ErrorLog errorLog = new DomainEntities.DBEntities.ErrorLog();
+                if (ex.InnerException != null)
+                {
+                    errorLog.ErrorMessage = ex.InnerException.ToString();
+                }
+                else
+                {
+                    errorLog.ErrorMessage = ex.Message;
+                }
+                errorLog.ModuleName = "API Add New Account Opening";
+                errorLog.ErrorDate = DateTime.Now;
+
+                _errorLogRepository.Add(errorLog);
 
 
-            accountOpening.AccountTypeId = accountOpeningDTO.AccountTypeId;
-            accountOpening.ClientId = accountOpeningDTO.ClientId;
-            accountOpening.Currency = accountOpeningDTO.Currency;
-            accountOpening.OpeningDate = DateTime.Now;
-            accountOpening.Balance = accountOpeningDTO.Balance;
-            accountOpening.Iban = accountOpeningDTO.Iban;
-            accountOpening.Status = true; // Assuming the account is active upon creation
 
-            _accountOpeningRepository.Add(accountOpening);
-            return Ok("Success");
+                return BadRequest("Fail");
+            }
         }
     }
 }

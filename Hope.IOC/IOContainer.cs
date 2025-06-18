@@ -25,6 +25,8 @@ namespace Hope.IOC
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IAccountTypeRepository,  AccountTypeRepository>();
             services.AddScoped<IAccountOpeningRepository, AccountOpeningRepository>();
+            services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
 
         }
     }

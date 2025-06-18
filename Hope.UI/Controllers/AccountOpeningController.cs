@@ -1,8 +1,10 @@
 ﻿using Hope.infrastructure.DTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,17 +62,32 @@ namespace Hope.UI.Controllers
             HttpClient client = new HttpClient();
             string url = "http://localhost:37075/";
 
-            var AccountOpeningContextDTO = JsonConvert.SerializeObject(accountOpeningDTO);
-
-            var response = await client.PostAsync(url + "api/AccountOpening/AddNewAccountOpening",
-                new StringContent(AccountOpeningContextDTO, Encoding.UTF8, "application/json"));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            try
             {
-                return View();
+                var AccountOpeningContextDTO = JsonConvert.SerializeObject(accountOpeningDTO);
+
+                var response = await client.PostAsync(url + "api/AccountOpening/AddNewAccountOpening",
+                    new StringContent(AccountOpeningContextDTO, Encoding.UTF8, "application/json"));
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return View();
+                }
+                else
+                {
+                    return View("~/Views/Home/ErrorPage.cshtml");
+                }
+
             }
-            else
+            catch (System.Exception ex)
             {
+                ErrorLogDTO errorLogDTO = new ErrorLogDTO();
+                errorLogDTO.ModuleName = "Add New Account Opening";
+                errorLogDTO.ErrorMessage = ex.Message;
+
+                var ErrorContextDTO = JsonConvert.SerializeObject(errorLogDTO);
+                var ErrorResponse = await client.PostAsync(url + "api/Error/AddNewError",
+                    new StringContent(ErrorContextDTO, Encoding.UTF8, "application/json"));
                 return View("~/Views/Home/ErrorPage.cshtml");
                 //Error Page
             }

@@ -23,6 +23,7 @@ namespace Hope.DomainEntities
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<DailyTransaction> DailyTransactions { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<Loan> Loans { get; set; }
         public virtual DbSet<LoanPayment> LoanPayments { get; set; }
         public virtual DbSet<LoanType> LoanTypes { get; set; }
@@ -157,6 +158,19 @@ namespace Hope.DomainEntities
                     .HasForeignKey(d => d.QualificationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Employees_Qualification");
+            });
+
+            modelBuilder.Entity<ErrorLog>(entity =>
+            {
+                entity.ToTable("ErrorLog", "Admin");
+
+                entity.Property(e => e.ErrorDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ErrorMessage).IsRequired();
+
+                entity.Property(e => e.ModuleName)
+                    .IsRequired()
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Loan>(entity =>
