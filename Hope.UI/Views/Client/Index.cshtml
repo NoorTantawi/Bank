@@ -88,7 +88,14 @@
     </div>
 
     <script>
+        $('#example').DataTable({
+            layout: {
+                topdown: {
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                }
+            }
 
+        });
     </script>
 
 </body>

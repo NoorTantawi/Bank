@@ -71,7 +71,7 @@ namespace Hope.UI.Controllers
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return View();
+                    return RedirectToAction("Create");
                 }
                 else
                 {

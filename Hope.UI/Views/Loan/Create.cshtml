@@ -17,12 +17,12 @@
                     <h5 class="card-title fw-semibold mb-4">Add New Loan</h5>
                     <div class="card">
                         <div class="card-body">
-                            <form asp-action="AddNewAccountOpening">
+                            <form asp-action="AddNewLoan">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label class="form-label">Loan Type</label>
                                         <span class="text-danger">*</span>
-                                        <select id="LoanTypeList" class="form-select" asp-for="LoanTypeId">
+                                        <select id="LoanTypeList" class="form-select" asp-for="LoanTypeId" asp-items="@(new SelectList(ViewBag.LoanType, "LoanTypeId", "TypeName"))"> 
                                             <option value="">Please Select</option>
 
                                         </select>
@@ -31,7 +31,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Client Name</label>
                                         <span class="text-danger">*</span>
-                                        <select id="ClientList" class="form-select" asp-for="ClientId">
+                                        <select id="ClientList" class="form-select" asp-for="ClientId" asp-items="@(new SelectList(ViewBag.Clients, "ClientId", "FullName"))">
                                             <option value="">Please Select</option>
                                         </select>
                                         <span asp-validation-for="ClientId" class="text-danger"></span>
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button id="btnSubmit" type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
 

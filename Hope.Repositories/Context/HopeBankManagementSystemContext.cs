@@ -183,17 +183,17 @@ namespace Hope.DomainEntities
 
                 entity.Property(e => e.EndDate).HasColumnType("date");
 
-                entity.Property(e => e.InterestRate).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.InterestRate).HasColumnType("decimal(18, 3)");
 
-                entity.Property(e => e.LoanAmount).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.LoanAmount).HasColumnType("decimal(18, 3)");
 
-                entity.Property(e => e.LoanSattelmentAmount).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.LoanSattelmentAmount).HasColumnType("decimal(18, 3)");
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
 
-                entity.Property(e => e.TaxValue).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.TaxValue).HasColumnType("decimal(18, 3)");
 
-                entity.Property(e => e.TotalAmountwithInterest).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.TotalAmountwithInterest).HasColumnType("decimal(18, 3)");
 
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Loans)
