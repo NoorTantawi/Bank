@@ -1,10 +1,13 @@
-﻿using Hope.UI.Models;
+﻿using Hope.infrastructure.DTO;
+using Hope.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Hope.UI.Controllers
@@ -18,9 +21,18 @@ namespace Hope.UI.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HttpClient client = new HttpClient();
+            string url = "http://localhost:37075/";
+
+            var response = await client.GetAsync(url + "api/Common/FillDashboard");
+
+            string apiResponse = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<DashboardDTO>(apiResponse);
+
+            return View(result);
         }
 
         public IActionResult Privacy()

@@ -1,6 +1,120 @@
-﻿<div class="container-fluid">
+﻿@model Hope.infrastructure.DTO.DashboardDTO
+
+<html>
+    <head>
+        <style>
+        .container {
+            margin-top: 100px;
+        }
+
+        .counter-box {
+            display: block;
+            background: #5d87ff;
+            padding: 25px 5px 37px;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+            .counter-box p {
+                margin: 5px 0 0;
+                padding: 0;
+                color: #fff;
+                font-size: 18px;
+                font-weight: 500
+            }
+
+            .counter-box i {
+                font-size: 60px;
+                margin: 0 0 15px;
+                color: #fff
+            }
+
+        .counter {
+            display: block;
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 28px
+        }
+
+        .counter-box.colored {
+            background: #3acf87;
+        }
+
+            .counter-box.colored p,
+            .counter-box.colored i,
+            .counter-box.colored .counter {
+                color: #fff
+            }
+
+        </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css"/>
+
+    </head>
+    <body>
+        <div class="container-fluid">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="four col-md-3">
+                        <div class="counter-box">
+                            <i class="fa fa-user"></i>
+                            <span class="counter">@Model.NumberOfEmployees</span>
+                            <p>Number of Employees</p>
+                        </div>
+                    </div><div class="four col-md-3">
+                        <div class="counter-box">
+                            <i class="fa fa-user"></i>
+                            <span class="counter">@Model.NumberOfClients</span>
+                            <p>Number of Clients</p>
+                        </div>
+                    </div>
+                    <div class="four col-md-3">
+                        <div class="counter-box">
+                            <i class="fa fa-user"></i>
+                            <span class="counter">@Model.NumberOfAccountOpenings</span>
+                            <p>Number of Account Opening</p>
+                        </div>
+                    </div>
+                    <div class="four col-md-3">
+                        <div class="counter-box">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                            <span class="counter">@Model.NumberOfLoans</span>
+                            <p>Number of Loans</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="py-6 px-6 text-center">
+                <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a></p>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+
+                    $('.counter').each(function () {
+                $(this).prop('Counter',0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 4000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+    
+</html>
+
+
     <!--  Row 1 -->
-    <div class="row">
+@*     <div class="row">
         <div class="col-lg-8 d-flex align-items-strech">
             <div class="card w-100">
                 <div class="card-body">
@@ -344,8 +458,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="py-6 px-6 text-center">
-        <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a></p>
-    </div>
-</div>
+    </div> *@
+    
