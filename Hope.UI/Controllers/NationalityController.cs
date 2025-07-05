@@ -3,12 +3,18 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text;
+using Hope.infrastructure.Base;
+using Microsoft.Extensions.Configuration;
 
 
 namespace Hope.UI.Controllers
 {
-    public class NationalityController : Controller
+    public class NationalityController : BaseController
     {
+        public NationalityController(IConfiguration configuration) : base(configuration)
+        {
+
+        }
         public IActionResult Create()
         {
             return View();
@@ -17,7 +23,7 @@ namespace Hope.UI.Controllers
         public async Task<IActionResult> AddNewNationality(Hope.infrastructure.DTO.NationalityDTO nationalityDTO) 
         {
             HttpClient client = new HttpClient();
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
 
             var nationalityContextDTO = JsonConvert.SerializeObject(nationalityDTO);
 

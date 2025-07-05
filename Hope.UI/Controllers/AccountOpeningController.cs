@@ -1,6 +1,8 @@
-﻿using Hope.infrastructure.DTO;
+﻿using Hope.infrastructure.Base;
+using Hope.infrastructure.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,13 +12,17 @@ using System.Threading.Tasks;
 
 namespace Hope.UI.Controllers
 {
-    public class AccountOpeningController : Controller
+    public class AccountOpeningController : BaseController
     {
+        public AccountOpeningController(IConfiguration configuration) : base(configuration)
+        {
+
+        }
         public async Task<IActionResult> Create()
         {
 
-            string url = "http://localhost:37075/";
             HttpClient client = new HttpClient();
+            string url = configuration.GetSection("APIUrl").Value.ToString();
 
             var response = await client.GetAsync(url + "api/AccountOpening/GetAllClient");
 
@@ -38,7 +44,7 @@ namespace Hope.UI.Controllers
 
         public async Task<IActionResult> CheckIfUserHasAccount(int AccountTypeId, int ClientId)
         {
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
             HttpClient client = new HttpClient();
 
             var response = await client.GetAsync(url + "api/AccountOpening/CheckIfUserHasAccount?AccountTypeId="
@@ -60,7 +66,7 @@ namespace Hope.UI.Controllers
         public async Task<IActionResult> AddNewAccountOpening(Hope.infrastructure.DTO.AccountOpeningDTO accountOpeningDTO)
         {
             HttpClient client = new HttpClient();
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
 
             try
             {

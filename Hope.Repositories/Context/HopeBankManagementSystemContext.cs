@@ -151,7 +151,11 @@ namespace Hope.DomainEntities
                     .IsRequired()
                     .HasMaxLength(10);
 
+                entity.Property(e => e.Password).HasMaxLength(20);
+
                 entity.Property(e => e.Salary).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Username).HasMaxLength(20);
 
                 entity.HasOne(d => d.Qualification)
                     .WithMany(p => p.Employees)

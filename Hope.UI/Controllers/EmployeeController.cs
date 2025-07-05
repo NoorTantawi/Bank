@@ -1,21 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Hope.infrastructure.Base;
+using Hope.infrastructure.DTO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Hope.infrastructure.DTO;
 using System.Text;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Hope.UI.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : BaseController
     {
+        public EmployeeController(IConfiguration configuration) : base(configuration)
+        {
+
+        }
         public async Task<IActionResult> Create()
         {
             //api/Employee/GetAllQualification
 
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
             HttpClient client = new HttpClient();
 
             var response = await client.GetAsync(url + "api/Employee/GetAllQualification");
@@ -30,7 +37,7 @@ namespace Hope.UI.Controllers
         public async Task<IActionResult> AddNewEmployee(Hope.infrastructure.DTO.EmployeeDTO employeeDTO) 
         {
             HttpClient client = new HttpClient();
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
 
             var EmployeeContextDTO = JsonConvert.SerializeObject(employeeDTO);
 
@@ -51,20 +58,28 @@ namespace Hope.UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            HttpClient client = new HttpClient();
-            string url = "http://localhost:37075/";
+            try
+            {
+                HttpClient client = new HttpClient();
+                string url = configuration.GetSection("APIUrl").Value.ToString();
 
-            var response = await client.GetAsync(url + "api/Employee/GetAllEmployee");
+                var response = await client.GetAsync(url + "api/Employee/GetAllEmployee");
 
-            string apiResponse = await response.Content.ReadAsStringAsync();
+                string apiResponse = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<List<EmployeeDTO>>(apiResponse);
+                var result = JsonConvert.DeserializeObject<List<EmployeeDTO>>(apiResponse);
 
-            return View(result);
+                return View(result);
+
+            }
+            catch (Exception ex)
+            {
+                return View("~/Views/Home/ErrorPage.cshtml");
+            }
         }
         public async Task <IActionResult> Update(int ID)
         {
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
             HttpClient client = new HttpClient();
 
             var Qualificationresponse = await client.GetAsync(url + "api/Employee/GetAllQualification");
@@ -91,7 +106,7 @@ namespace Hope.UI.Controllers
 
         public async Task<IActionResult> Delete(int ID)
         {
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
             HttpClient client = new HttpClient();
 
             var response = await client.GetAsync(url + "api/Employee/DeleteEmployee?id=" + ID);
@@ -109,7 +124,7 @@ namespace Hope.UI.Controllers
         public async Task<IActionResult> UpdateEmployee(Hope.infrastructure.DTO.EmployeeDTO employeeDTO)
         {
             HttpClient client = new HttpClient();
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
 
             var EmployeeContextDTO = JsonConvert.SerializeObject(employeeDTO);
 

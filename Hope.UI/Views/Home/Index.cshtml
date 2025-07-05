@@ -92,10 +92,13 @@
                 <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a></p>
             </div>
         </div>
-        <script>
-            $(document).ready(function() {
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                    $('.counter').each(function () {
+    <!-- Your counter animation script -->
+    <script>
+        $(document).ready(function() {
+            $('.counter').each(function () {
                 $(this).prop('Counter',0).animate({
                     Counter: $(this).text()
                 }, {
@@ -103,11 +106,12 @@
                     easing: 'swing',
                     step: function (now) {
                         $(this).text(Math.ceil(now));
-                        }
-                    });
+                    }
                 });
             });
-        </script>
+        });
+    </script>
+
     </body>
     
 </html>

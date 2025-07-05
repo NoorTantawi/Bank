@@ -1,5 +1,7 @@
-﻿using Hope.infrastructure.DTO;
+﻿using Hope.infrastructure.Base;
+using Hope.infrastructure.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,13 +10,17 @@ using System.Threading.Tasks;
 
 namespace Hope.UI.Controllers
 {
-        public class ClientController : Controller
+        public class ClientController : BaseController
         {
+            public ClientController(IConfiguration configuration) : base(configuration)
+            {
+                
+            }
             public async Task<IActionResult> Create()
             {
-                //api/Employee/GetAllQualification
+            //api/Employee/GetAllQualification
 
-                string url = "http://localhost:37075/";
+                string url = configuration.GetSection("APIUrl").Value.ToString();
                 HttpClient client = new HttpClient();
 
                 var response = await client.GetAsync(url + "api/Client/GetAllNationality");
@@ -29,7 +35,7 @@ namespace Hope.UI.Controllers
             public async Task<IActionResult> AddNewClient(Hope.infrastructure.DTO.ClientDTO clientDTO)
             {
                 HttpClient client = new HttpClient();
-                string url = "http://localhost:37075/";
+                string url = configuration.GetSection("APIUrl").Value.ToString();
 
                 var ClientContextDTO = JsonConvert.SerializeObject(clientDTO);
 
@@ -51,7 +57,7 @@ namespace Hope.UI.Controllers
             public async Task<IActionResult> Index()
             {
                 HttpClient client = new HttpClient();
-                string url = "http://localhost:37075/";
+                string url = configuration.GetSection("APIUrl").Value.ToString();
 
                 var response = await client.GetAsync(url + "api/Client/GetAllClient");
 
@@ -63,7 +69,7 @@ namespace Hope.UI.Controllers
             }
             public async Task<IActionResult> Update(int ID)
             {
-                string url = "http://localhost:37075/";
+                string url = configuration.GetSection("APIUrl").Value.ToString();
                 HttpClient client = new HttpClient();
 
                 var Nationalityresponse = await client.GetAsync(url + "api/Client/GetAllNationality");
@@ -90,7 +96,7 @@ namespace Hope.UI.Controllers
 
             public async Task<IActionResult> Delete(int ID)
             {
-                string url = "http://localhost:37075/";
+                string url = configuration.GetSection("APIUrl").Value.ToString();
                 HttpClient client = new HttpClient();
 
                 var response = await client.GetAsync(url + "api/Client/DeleteClient?id=" + ID);
@@ -108,7 +114,7 @@ namespace Hope.UI.Controllers
             public async Task<IActionResult> UpdateClient(Hope.infrastructure.DTO.ClientDTO clientDTO)
             {
                 HttpClient client = new HttpClient();
-                string url = "http://localhost:37075/";
+                string url = configuration.GetSection("APIUrl").Value.ToString();
 
                 var ClientContextDTO = JsonConvert.SerializeObject(clientDTO);
 

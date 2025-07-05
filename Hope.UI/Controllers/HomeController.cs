@@ -1,6 +1,8 @@
-﻿using Hope.infrastructure.DTO;
+﻿using Hope.infrastructure.Base;
+using Hope.infrastructure.DTO;
 using Hope.UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -12,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Hope.UI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration) : base(configuration)
         {
             _logger = logger;
         }
@@ -24,7 +26,7 @@ namespace Hope.UI.Controllers
         public async Task<IActionResult> Index()
         {
             HttpClient client = new HttpClient();
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
 
             var response = await client.GetAsync(url + "api/Common/FillDashboard");
 

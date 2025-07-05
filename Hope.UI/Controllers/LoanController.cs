@@ -1,5 +1,7 @@
-﻿using Hope.infrastructure.DTO;
+﻿using Hope.infrastructure.Base;
+using Hope.infrastructure.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,8 +10,12 @@ using System.Threading.Tasks;
 
 namespace Hope.UI.Controllers
 {
-    public class LoanController : Controller
+    public class LoanController : BaseController
     {
+        public LoanController(IConfiguration configuration) : base(configuration)
+        {
+
+        }
         public IActionResult Index()
         {
             return View();
@@ -17,7 +23,7 @@ namespace Hope.UI.Controllers
         public async Task<IActionResult> Create()
         {
 
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
             HttpClient client = new HttpClient();
 
             var response = await client.GetAsync(url + "api/Client/GetAllClient");
@@ -41,24 +47,21 @@ namespace Hope.UI.Controllers
         public async Task<IActionResult> AddNewLoan(LoanDTO loanDTO)
         {
             HttpClient client = new HttpClient();
-            string url = "http://localhost:37075/";
+            string url = configuration.GetSection("APIUrl").Value.ToString();
 
-                var LoanContextDTO = JsonConvert.SerializeObject(loanDTO);
+            var LoanContextDTO = JsonConvert.SerializeObject(loanDTO);
 
-                var response = await client.PostAsync(url + "api/Loan/AddNewLoan",
+            var response = await client.PostAsync(url + "api/Loan/AddNewLoan",
                     new StringContent(LoanContextDTO, Encoding.UTF8, "application/json"));
 
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    return RedirectToAction("Create");
-                }
-                else
-                {
-                    return View("~/Views/Home/ErrorPage.cshtml");
-                }
-
-
-
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                return View("~/Views/Home/ErrorPage.cshtml");
+            }
         }
     }
 }
