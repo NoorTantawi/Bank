@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Hope.Repositories.Repository
 {
      public class ClientRepository : Repository <Client> , IRepository.IClientRepository
-    {
+     {
         public ClientRepository() 
         {
 

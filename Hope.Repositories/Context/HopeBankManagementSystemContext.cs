@@ -27,9 +27,11 @@ namespace Hope.DomainEntities
         public virtual DbSet<Loan> Loans { get; set; }
         public virtual DbSet<LoanPayment> LoanPayments { get; set; }
         public virtual DbSet<LoanType> LoanTypes { get; set; }
+        public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<Nationality> Nationalities { get; set; }
         public virtual DbSet<Qualification> Qualifications { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<RoleModule> RoleModules { get; set; }
         public virtual DbSet<RoleUser> RoleUsers { get; set; }
         public virtual DbSet<StocksRate> StocksRates { get; set; }
 
@@ -145,6 +147,10 @@ namespace Hope.DomainEntities
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.IdcardPath)
+                    .HasMaxLength(100)
+                    .HasColumnName("IDCardPath");
+
                 entity.Property(e => e.JoinDate).HasColumnType("date");
 
                 entity.Property(e => e.Mobile)
@@ -232,6 +238,17 @@ namespace Hope.DomainEntities
                 entity.Property(e => e.TypeName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Module>(entity =>
+            {
+                entity.ToTable("Module", "Admin");
+
+                entity.Property(e => e.ModuleId).ValueGeneratedNever();
+
+                entity.Property(e => e.ModuleName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Entity<Nationality>(entity =>
             {
                 entity.ToTable("Nationality", "Admin");
@@ -257,6 +274,23 @@ namespace Hope.DomainEntities
                 entity.Property(e => e.RoleName)
                     .IsRequired()
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<RoleModule>(entity =>
+            {
+                entity.ToTable("RoleModule", "Admin");
+
+                entity.HasOne(d => d.Module)
+                    .WithMany(p => p.RoleModules)
+                    .HasForeignKey(d => d.ModuleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RoleModule_Module");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.RoleModules)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RoleModule_Roles");
             });
 
             modelBuilder.Entity<RoleUser>(entity =>

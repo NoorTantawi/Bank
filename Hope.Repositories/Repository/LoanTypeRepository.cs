@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Hope.Repositories.Repository
 {
      public class LoanTypeRepository : Repository <LoanType>, IRepository.ILoanTypeRepository
-    {
+     {
         public LoanTypeRepository() 
         {
 

@@ -23,6 +23,7 @@ namespace Hope.DomainEntities.DBEntities
         public DateTime? DateOfBirth { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string IdcardPath { get; set; }
 
         public virtual Qualification Qualification { get; set; }
         public virtual ICollection<RoleUser> RoleUsers { get; set; }

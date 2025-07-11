@@ -36,6 +36,12 @@ namespace Hope.UI.Controllers
 
         public async Task<IActionResult> AddNewEmployee(Hope.infrastructure.DTO.EmployeeDTO employeeDTO) 
         {
+            var filePath = "D:\\BankImages";
+            employeeDTO.IDCard.CopyTo(new System.IO.FileStream(System.IO.Path.Combine(filePath, employeeDTO.IDCard.FileName), System.IO.FileMode.Create));
+
+
+
+
             HttpClient client = new HttpClient();
             string url = configuration.GetSection("APIUrl").Value.ToString();
 

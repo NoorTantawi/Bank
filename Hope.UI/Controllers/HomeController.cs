@@ -52,5 +52,15 @@ namespace Hope.UI.Controllers
         {
             return View();
         }
+
+        public IActionResult Change(ChangePasswordDTO changePasswordDTO)
+        {
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -33,5 +34,7 @@ namespace Hope.infrastructure.DTO
         [Required(AllowEmptyStrings = false, ErrorMessage = "This field is required")]
         public int QualificationId { get; set; }
         public DateTime? DateOfBirth { get; set; }
+
+        public IFormFile IDCard { get; set; }
     }
 }

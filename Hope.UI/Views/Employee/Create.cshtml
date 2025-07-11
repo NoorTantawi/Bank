@@ -23,7 +23,7 @@
                     <h5 class="card-title fw-semibold mb-4">Add New Employee</h5>
                     <div class="card">
                         <div class="card-body">
-                            <form asp-action="AddNewEmployee">
+                            <form asp-action="AddNewEmployee" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label class="form-label">Full Name</label>
@@ -77,6 +77,10 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Date Of Birth</label>
                                         <input type="date" class="form-control" asp-for="DateOfBirth"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">ID Card</label>
+                                        <input type="file" asp-for="IDCard" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="row">

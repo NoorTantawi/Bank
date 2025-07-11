@@ -5,18 +5,16 @@ using System.Collections.Generic;
 
 namespace Hope.DomainEntities.DBEntities
 {
-    public partial class Role
+    public partial class Module
     {
-        public Role()
+        public Module()
         {
             RoleModules = new HashSet<RoleModule>();
-            RoleUsers = new HashSet<RoleUser>();
         }
 
-        public int RoleId { get; set; }
-        public string RoleName { get; set; }
+        public int ModuleId { get; set; }
+        public string ModuleName { get; set; }
 
         public virtual ICollection<RoleModule> RoleModules { get; set; }
-        public virtual ICollection<RoleUser> RoleUsers { get; set; }
     }
 }

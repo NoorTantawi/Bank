@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Hope.Repositories.Repository
 {
      public class QualificationRepository : Repository <Qualification> , IRepository.IQualificationRepository
-    {
+     {
         public QualificationRepository() 
         {
 

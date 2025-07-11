@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -39,14 +40,14 @@ namespace Hope.UI.Controllers
                 };
 
                 var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
-                var userPrincipal = new ClaimsPrincipal(new[] {userIdentity});
+                var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
                 HttpContext.SignInAsync(userPrincipal);
 
                 return RedirectToAction("Index", "Home");
             }
-            else 
-            { 
-                return View("Login"); 
+            else
+            {
+                return View("Login");
             }
 
         }
@@ -65,6 +66,20 @@ namespace Hope.UI.Controllers
             int id = JsonConvert.DeserializeObject<int>(data);
 
             return id;
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            var _user = HttpContext.User as ClaimsPrincipal;
+            var _identity = _user.Identity as ClaimsIdentity;
+
+            foreach (var claim in _user.Claims.ToList())
+            {
+                _identity.RemoveClaim(claim);
+            }
+
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
     }
 }

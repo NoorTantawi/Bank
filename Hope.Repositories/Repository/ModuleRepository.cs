@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Hope.Repositories.Repository
 {
-     public class ErrorLogRepository : Repository <ErrorLog>, IRepository.IErrorLogRepository
+     public class ModuleRepository : Repository <Module> , IRepository.IModuleRepository
      {
-        public ErrorLogRepository() 
+        public ModuleRepository() 
         {
 
         }

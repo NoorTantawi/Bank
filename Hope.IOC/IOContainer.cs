@@ -28,6 +28,10 @@ namespace Hope.IOC
             services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
             services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<ILoanTypeRepository, LoanTypeRepository>();
+            services.AddScoped<IRoleModuleRepository, RoleModuleRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IModuleRepository, ModuleRepository>();
+            services.AddScoped<IRoleUserRepository, RoleUserRepository>();
 
         }
     }
